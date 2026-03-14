@@ -2,10 +2,8 @@ const express = require('express');
 const pool = require('./db');
 const app = express();
 const cors = require('cors');
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));
-const port = 3000;
+app.use(cors());
+const port = process.env.PORT || 3000;
 app.use(express.json());
 app.get('/tasks', async (req, res) => {
     const result = await pool.query('SELECT * FROM tasks');

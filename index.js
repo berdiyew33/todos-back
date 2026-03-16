@@ -14,6 +14,12 @@ app.post('/tasks', async (req, res) => {
     const result = await pool.query('INSERT INTO tasks (task, description, status) VALUES ($1, $2, $3) RETURNING *', [task, description, status]);
     res.json(result.rows[0]);
 });
+app.put('/tasks/:id', async (req, res) => {
+    const { id } = req.params;
+    const { task, description, status } = req.body;
+    const result = await pool.query('UPDATE tasks SET task = $1, description = $2, status = $3 WHERE id = $4 RETURNING *', [task, description, status, id]);
+    res.json(result.rows[0]);
+});
 app.delete('/tasks/:id', async (req, res) => {
     const { id } = req.params;
     await pool.query('DELETE FROM tasks WHERE id = $1', [id]);
